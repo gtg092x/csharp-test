@@ -21,7 +21,11 @@ public class ProgrammingTest : MonoBehaviour {
 
 
 		List<System.Object> result = MatrixDecomposition.DecomposeMatrix (matrix);
+
+		// log results
 		result.ForEach (x=>Debug.Log (x));
+
+		// create queue for animation
 		QueuedResult = new Queue<int>(result.Select(x=>(int)x));
 		StartCoroutine (renderNext());
 	}
