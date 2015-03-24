@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class MatrixDecomposition {
 
@@ -7,6 +8,7 @@ public static class MatrixDecomposition {
 		// unwind matrix
 		// row then column [x][y]
 		List<System.Object> result = new List<System.Object>();
+		List<IntPoint> traversed = new List<IntPoint>();
 
 		// start by facing right
 		Direction direction = Direction.Right;
@@ -33,7 +35,7 @@ public static class MatrixDecomposition {
 					break;
 			}
 			//rows first
-			if(outOfBounds(nextPos,matrix, pos) || matrix[nextPos.y][nextPos.x] == null){
+			if(outOfBounds(nextPos,matrix, pos) || isTraversed(nextPos,traversed)){
 				direction = nextDirection(direction);
 				if(turns ++>3){
 					break;
@@ -43,8 +45,8 @@ public static class MatrixDecomposition {
 			}
 			// add spooled value
 			result.Add(matrix[nextPos.y][nextPos.x]);
-			// empty used value
-			matrix[nextPos.y][nextPos.x] = null;
+			// add used value to traversed
+			traversed.Add (nextPos);
 			// current pos is now next pos
 			pos = nextPos;
 			// turns are reset
@@ -53,6 +55,10 @@ public static class MatrixDecomposition {
 
 		return result;
 
+	}
+
+	static bool isTraversed(IntPoint nextPos, List<IntPoint> traversed){
+		return traversed.Any (point=>point.x == nextPos.x && point.y == nextPos.y);
 	}
 
 	static bool outOfBounds(IntPoint nextPos, System.Object[][] matrix, IntPoint pos){
