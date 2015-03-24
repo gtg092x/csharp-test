@@ -19,21 +19,7 @@ public static class MatrixDecomposition {
 		int turns = 0;
 
 		while(true){
-			IntPoint nextPos = new IntPoint();
-			switch(direction){
-				case Direction.Right:
-					nextPos = new IntPoint{x=pos.x+1,y=pos.y};
-					break;
-				case Direction.Down:
-					nextPos = new IntPoint{x=pos.x,y=pos.y+1};
-					break;
-				case Direction.Left:
-					nextPos = new IntPoint{x=pos.x-1,y=pos.y};
-					break;
-				case Direction.Up:
-					nextPos = new IntPoint{x=pos.x,y=pos.y-1};
-					break;
-			}
+			IntPoint nextPos = getNextPos(direction,pos);
 			//rows first
 			if(outOfBounds(nextPos,matrix, pos) || isTraversed(nextPos,traversed)){
 				direction = nextDirection(direction);
@@ -66,6 +52,24 @@ public static class MatrixDecomposition {
 			|| nextPos.y < 0 || nextPos.x < 0;
 	}
 
+	static IntPoint getNextPos(Direction direction, IntPoint pos){
+		switch(direction){
+		case Direction.Right:
+			return new IntPoint{x=pos.x+1,y=pos.y};
+			break;
+		case Direction.Down:
+			return new IntPoint{x=pos.x,y=pos.y+1};
+			break;
+		case Direction.Left:
+			return new IntPoint{x=pos.x-1,y=pos.y};
+			break;
+		case Direction.Up:
+		default:
+			return new IntPoint{x=pos.x,y=pos.y-1};
+			break;
+		}
+	}
+	
 	static Direction nextDirection(Direction direction){
 		switch(direction){
 			case Direction.Right:
